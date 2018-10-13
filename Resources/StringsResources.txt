@@ -1,0 +1,26 @@
+CaptionOnSave=Guardar
+CaptionOnDeleteRecord=Confirmar eliminar
+CaptionError=Error
+CaptionInventory=Entradas/Salidas de Inventario
+CaptionCompany=Inventario CyCSA
+ErrorMsgEmpty=No se admite valor vacío
+ErrorCategoryCodeDup=Código duplicado
+ErrorMsgOnRecordSaved=Se ha producido un error al guardar el registro
+ErrorMsgOnWarehouseTransfer=El almacén destino no puede ser el mismo que el almacén origen
+ErrorMsgItemReport=Seleccione un item
+ErrorMsgSameWarehouse=Los almacenes de origen y destino no puede ser iguales
+ErrorMsgSelectValue=Por favor seleccione un valor
+ErrorMsgOcurred=Se ha producido un error
+ErrorMsgCantDeleteStatus=No se puede borrar estado porque hay items dependen de él
+ErrorColumnStatus=Ingrese un nombre de estado
+MessageOnRecordSaved=Item guardado!
+MessageOnCompanyInfoSaved=Información de la Empresa guardada
+MessageOnTransactionSave=Transacción completada!
+MessageOnDeleteRecord=¿Desea eliminar el registro actual?
+MessageNoItemSelected=No hay ningún item seleccionado
+MessageNoItemInWarehouse=No existe item en bodega
+MessageNoStock=No hay suficientes unidades en existencia
+MessageWarehouseNotEmpty=El almacén aún contiene items con existencias
+MessageWarehouseNoSelected=No hay ningún almacén seleccionado
+
+
