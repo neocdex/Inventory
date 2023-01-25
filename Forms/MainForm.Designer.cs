@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.imageCollection16x16 = new DevExpress.Utils.ImageCollection();
+            this.imageCollection16x16 = new DevExpress.Utils.ImageCollection(this.components);
             this.CategorybarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.WarehouseBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.barSubItem2 = new DevExpress.XtraBars.BarSubItem();
@@ -42,7 +43,7 @@
             this.ProductBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.StatusBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.AppSettingsBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
-            this.imageCollection32x32 = new DevExpress.Utils.ImageCollection();
+            this.imageCollection32x32 = new DevExpress.Utils.ImageCollection(this.components);
             this.ribbonPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ConfigRibbonPageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -104,7 +105,7 @@
             // 
             this.WarehouseBarButtonItem.Caption = "Almacenes";
             this.WarehouseBarButtonItem.Id = 15;
-            this.WarehouseBarButtonItem.LargeImageIndex = 6;
+            this.WarehouseBarButtonItem.LargeImageIndex = 12;
             this.WarehouseBarButtonItem.Name = "WarehouseBarButtonItem";
             this.WarehouseBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.WarehouseBarButtonItem_ItemClick);
             // 
@@ -198,6 +199,7 @@
             this.imageCollection32x32.Images.SetKeyName(9, "briefcase_32x32.png");
             this.imageCollection32x32.Images.SetKeyName(10, "brand-icon_32x32.png");
             this.imageCollection32x32.Images.SetKeyName(11, "status_32x32.png");
+            this.imageCollection32x32.Images.SetKeyName(12, "warehouse_32x32.png");
             // 
             // ribbonPage
             // 

@@ -124,7 +124,7 @@
     <value>132, 17</value>
   </metadata>
   <data name="xpMainCollection.DisplayableProperties" xml:space="preserve">
-    <value>This;product_id;name;description;serialnumber;serie;model;partnumber;lote;discontinued;discontinued_date;weight;category_id!;category_id!Key;category_id;brand_id!;brand_id!Key;brand_id;uom_id!;uom_id!Key;uom_id;barcode_digits;Status_idStatus!;Status_idStatus!Key;Status_idStatus;fenergia;tmante;totalStock;productcode;StoredItems</value>
+    <value>This;product_id;name;description;serialnumber;serie;model;partnumber;lote;discontinued;discontinued_date;weight;category_id!;category_id!Key;category_id;brand_id!;brand_id!Key;brand_id;uom_id!;uom_id!Key;uom_id;barcode_digits;Status_idStatus!;Status_idStatus!Key;estado;Status_idStatus;fenergia;tmante;totalStock;productcode;StoredItems</value>
   </data>
   <metadata name="MainBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>278, 17</value>
@@ -141,7 +141,7 @@
 </value>
   </data>
   <metadata name="imageCollection32x32.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>576, 17</value>
+    <value>17, 56</value>
   </metadata>
   <data name="imageCollection32x32.ImageStream" type="DevExpress.Utils.ImageCollectionStreamer, DevExpress.Utils.v15.2" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -155,24 +155,27 @@
 </value>
   </data>
   <metadata name="xpWarehouseCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>468, 56</value>
+    <value>169, 95</value>
   </metadata>
   <metadata name="xpStatusCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>316, 56</value>
+    <value>17, 95</value>
   </metadata>
   <metadata name="dxValidationProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>648, 56</value>
+    <value>349, 95</value>
   </metadata>
   <metadata name="xpCategoryCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>748, 17</value>
+    <value>189, 56</value>
   </metadata>
   <metadata name="xpBrandCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 56</value>
+    <value>357, 56</value>
   </metadata>
   <metadata name="xpUOMCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>168, 56</value>
+    <value>508, 56</value>
+  </metadata>
+  <metadata name="xpWarehouseCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>169, 95</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>27</value>
+    <value>114</value>
   </metadata>
 </root>

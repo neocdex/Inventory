@@ -37,6 +37,7 @@
             this.repositoryItemGridLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemGridLookUpEdit();
             this.repositoryItemGridLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.ItemsByWarehouseReport = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnWarehouseTransfer = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.unitOfWork)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xpMainCollection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainBindingSource)).BeginInit();
@@ -78,18 +79,24 @@
             this.imageCollection32x32.InsertGalleryImage("print_32x32.png", "images/print/print_32x32.png", DevExpress.Images.ImageResourceCache.Default.GetImage("images/print/print_32x32.png"), 6);
             this.imageCollection32x32.Images.SetKeyName(6, "print_32x32.png");
             this.imageCollection32x32.Images.SetKeyName(7, "graph_stock_v2_32x32.png");
+            this.imageCollection32x32.Images.SetKeyName(8, "handle4_32x32.png");
             // 
             // ribbonPage1
             // 
             this.ribbonPage1.MergeOrder = 0;
             // 
+            // ribbonPageGroup1
+            // 
+            this.ribbonPageGroup1.ItemLinks.Add(this.barBtnWarehouseTransfer);
+            // 
             // ribbon
             // 
             this.ribbon.ExpandCollapseItem.Id = 0;
             this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-            this.ItemsByWarehouseReport});
-            this.ribbon.MaxItemId = 9;
-            this.ribbon.Size = new System.Drawing.Size(707, 155);
+            this.ItemsByWarehouseReport,
+            this.barBtnWarehouseTransfer});
+            this.ribbon.MaxItemId = 10;
+            this.ribbon.Size = new System.Drawing.Size(606, 143);
             this.ribbon.Toolbar.ShowCustomizeItem = false;
             // 
             // ribbonPageGroup2
@@ -102,13 +109,15 @@
             this.gridWarehouse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridWarehouse.EmbeddedNavigator.Buttons.Append.Visible = false;
             this.gridWarehouse.EmbeddedNavigator.Buttons.Remove.Visible = false;
+            this.gridWarehouse.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gridWarehouse.EmbeddedNavigator.TextStringFormat = "Registro {0} de {1}";
-            this.gridWarehouse.Location = new System.Drawing.Point(0, 155);
+            this.gridWarehouse.Location = new System.Drawing.Point(0, 143);
             this.gridWarehouse.MainView = this.gridViewWarehouse;
+            this.gridWarehouse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gridWarehouse.Name = "gridWarehouse";
             this.gridWarehouse.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemGridLookUpEdit});
-            this.gridWarehouse.Size = new System.Drawing.Size(707, 342);
+            this.gridWarehouse.Size = new System.Drawing.Size(606, 255);
             this.gridWarehouse.TabIndex = 5;
             this.gridWarehouse.UseEmbeddedNavigator = true;
             this.gridWarehouse.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -183,11 +192,19 @@
             this.ItemsByWarehouseReport.Name = "ItemsByWarehouseReport";
             this.ItemsByWarehouseReport.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ItemsByWarehouseReport_ItemClick);
             // 
+            // barBtnWarehouseTransfer
+            // 
+            this.barBtnWarehouseTransfer.Caption = "Trapasar";
+            this.barBtnWarehouseTransfer.Id = 9;
+            this.barBtnWarehouseTransfer.LargeImageIndex = 8;
+            this.barBtnWarehouseTransfer.Name = "barBtnWarehouseTransfer";
+            this.barBtnWarehouseTransfer.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnWarehouseTransfer_ItemClick);
+            // 
             // WarehouseListForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(707, 528);
+            this.ClientSize = new System.Drawing.Size(606, 429);
             this.Controls.Add(this.gridWarehouse);
             this.Name = "WarehouseListForm";
             this.Text = "Lista de Almacenes";
@@ -203,6 +220,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemGridLookUpEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemGridLookUpEdit1View)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -216,5 +234,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemGridLookUpEdit repositoryItemGridLookUpEdit;
         private DevExpress.XtraGrid.Views.Grid.GridView repositoryItemGridLookUpEdit1View;
         private DevExpress.XtraBars.BarButtonItem ItemsByWarehouseReport;
+        private DevExpress.XtraBars.BarButtonItem barBtnWarehouseTransfer;
     }
 }

@@ -27,7 +27,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -65,7 +65,25 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Charts.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -151,6 +169,12 @@
     </Compile>
     <Compile Include="Forms\CompanyInfo.Designer.cs">
       <DependentUpon>CompanyInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CategoryChooserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CategoryChooserForm.Designer.cs">
+      <DependentUpon>CategoryChooserForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormProject.cs">
       <SubType>Form</SubType>
@@ -260,11 +284,23 @@
     <Compile Include="Forms\WarehouseForm.Designer.cs">
       <DependentUpon>WarehouseForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\WarehouseTransferForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WarehouseTransferForm.Designer.cs">
+      <DependentUpon>WarehouseTransferForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\WarehouseListForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\WarehouseListForm.Designer.cs">
       <DependentUpon>WarehouseListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ORMDataModelCode\Addresses.cs" />
     <Compile Include="ORMDataModelCode\Addresses.Designer.cs">
@@ -315,9 +351,9 @@
     <Compile Include="ORMDataModelCode\Purchaseorders.Designer.cs">
       <DependentUpon>Purchaseorders.cs</DependentUpon>
     </Compile>
-    <Compile Include="ORMDataModelCode\Secuence_data.cs" />
-    <Compile Include="ORMDataModelCode\Secuence_data.Designer.cs">
-      <DependentUpon>Secuence_data.cs</DependentUpon>
+    <Compile Include="ORMDataModelCode\Sequence_data.cs" />
+    <Compile Include="ORMDataModelCode\Sequence_data.Designer.cs">
+      <DependentUpon>Sequence_data.cs</DependentUpon>
     </Compile>
     <Compile Include="ORMDataModelCode\Status.cs" />
     <Compile Include="ORMDataModelCode\Status.Designer.cs">
@@ -369,6 +405,18 @@
     <Compile Include="Reports\BaseReport.Designer.cs">
       <DependentUpon>BaseReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reports\ItemsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\ItemsReport.Designer.cs">
+      <DependentUpon>ItemsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ProductByCategoryWarehouse.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\ProductByCategoryWarehouse.Designer.cs">
+      <DependentUpon>ProductByCategoryWarehouse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reports\ProductByWarehouse.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -411,6 +459,12 @@
     <Compile Include="Reports\ProductByWarehouseCategory.Designer.cs">
       <DependentUpon>ProductByWarehouseCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reports\XtraReportQRCode.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\XtraReportQRCode.Designer.cs">
+      <DependentUpon>XtraReportQRCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Resources\StringsResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -422,7 +476,10 @@
     <Compile Include="Utils\Setup.cs" />
     <Compile Include="Utils\SpGridLocalizer.cs" />
     <Compile Include="Views\ProductByWarehouse.cs" />
-    <Compile Include="Views\ProductByWarehouseCategoryKey.cs" />
+    <Compile Include="Views\ProductByWarehouseCategory.cs" />
+    <EmbeddedResource Include="Forms\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AppSettingsForm.resx">
       <DependentUpon>AppSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -443,6 +500,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CompanyInfo.resx">
       <DependentUpon>CompanyInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CategoryChooserForm.resx">
+      <DependentUpon>CategoryChooserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormProject.resx">
       <DependentUpon>FormProject.cs</DependentUpon>
@@ -498,6 +558,9 @@
     <EmbeddedResource Include="Forms\WarehouseForm.resx">
       <DependentUpon>WarehouseForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WarehouseTransferForm.resx">
+      <DependentUpon>WarehouseTransferForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\WarehouseListForm.resx">
       <DependentUpon>WarehouseListForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -519,6 +582,12 @@
     <EmbeddedResource Include="Reports\BaseReport.resx">
       <DependentUpon>BaseReport.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ItemsReport.resx">
+      <DependentUpon>ItemsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProductByCategoryWarehouse.resx">
+      <DependentUpon>ProductByCategoryWarehouse.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductByWarehouse.resx">
       <DependentUpon>ProductByWarehouse.cs</DependentUpon>
     </EmbeddedResource>
@@ -539,6 +608,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductByWarehouseCategory.resx">
       <DependentUpon>ProductByWarehouseCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\XtraReportQRCode.resx">
+      <DependentUpon>XtraReportQRCode.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Resources\StringsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

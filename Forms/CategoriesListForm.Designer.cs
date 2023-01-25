@@ -78,21 +78,19 @@
             // ribbon
             // 
             this.ribbon.ExpandCollapseItem.Id = 0;
-            this.ribbon.Margin = new System.Windows.Forms.Padding(5);
-            this.ribbon.Size = new System.Drawing.Size(999, 170);
+            this.ribbon.Margin = new System.Windows.Forms.Padding(3);
+            this.ribbon.Size = new System.Drawing.Size(666, 143);
             this.ribbon.Toolbar.ShowCustomizeItem = false;
             // 
             // gridCategories
             // 
             this.gridCategories.DataSource = this.MainBindingSource;
             this.gridCategories.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridCategories.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4);
             this.gridCategories.EmbeddedNavigator.TextStringFormat = "Registro {0} de {1}";
-            this.gridCategories.Location = new System.Drawing.Point(0, 170);
+            this.gridCategories.Location = new System.Drawing.Point(0, 143);
             this.gridCategories.MainView = this.gridViewCategories;
-            this.gridCategories.Margin = new System.Windows.Forms.Padding(4);
             this.gridCategories.Name = "gridCategories";
-            this.gridCategories.Size = new System.Drawing.Size(999, 433);
+            this.gridCategories.Size = new System.Drawing.Size(666, 263);
             this.gridCategories.TabIndex = 4;
             this.gridCategories.UseEmbeddedNavigator = true;
             this.gridCategories.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -114,12 +112,11 @@
             this.gridViewCategories.OptionsView.ShowGroupPanel = false;
             this.gridViewCategories.InvalidRowException += new DevExpress.XtraGrid.Views.Base.InvalidRowExceptionEventHandler(this.gridViewCategories_InvalidRowException);
             this.gridViewCategories.ValidateRow += new DevExpress.XtraGrid.Views.Base.ValidateRowEventHandler(this.gridViewCategories_ValidateRow);
-            this.gridViewCategories.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridViewCategories_ValidatingEditor);
-            this.gridViewCategories.InvalidValueException += new DevExpress.XtraEditors.Controls.InvalidValueExceptionEventHandler(this.gridViewCategories_InvalidValueException);
+            this.gridViewCategories.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridViewCategories_RowUpdated);
             // 
             // colcode
             // 
-            this.colcode.Caption = "Código";
+            this.colcode.Caption = "Prefijo";
             this.colcode.FieldName = "code";
             this.colcode.Name = "colcode";
             this.colcode.Visible = true;
@@ -143,11 +140,11 @@
             // 
             // CategoriesListForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(999, 638);
+            this.ClientSize = new System.Drawing.Size(666, 437);
             this.Controls.Add(this.gridCategories);
-            this.Margin = new System.Windows.Forms.Padding(5);
+            this.Margin = new System.Windows.Forms.Padding(3);
             this.Name = "CategoriesListForm";
             this.Text = "Lista de Categorías";
             this.Controls.SetChildIndex(this.ribbon, 0);
@@ -160,6 +157,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridCategories)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewCategories)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

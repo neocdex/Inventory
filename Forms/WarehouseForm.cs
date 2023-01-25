@@ -14,12 +14,24 @@ namespace Inventory.Forms
         public WarehouseForm()
         {
             InitializeComponent();
-            //Validar antes de guardar
         }
         protected override void OnSaveClicked()
         {
-            if(dxValidationProvider.Validate())
+            if (dxValidationProvider.Validate())
                 base.OnSaveClicked();
+        }
+        public override void SetItem(DevExpress.Xpo.XPBaseObject item)
+        {
+            try
+            {
+                int position = MainBindingSource.Find("warehouse_id", ((Inventory.ORMDataModelCode.Warehouse)item).warehouse_id);
+                if (position >= 0)
+                    MainBindingSource.Position = position;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

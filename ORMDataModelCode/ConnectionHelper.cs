@@ -15,7 +15,8 @@ namespace Inventory.ORMDataModelCode
 {
     public static class ConnectionHelper
     {
-        public const string ConnectionString = @"XpoProvider=MySql;server=192.168.1.50;user id=adminventory; password=GreatIdea; database=inventory_cycsa;persist security info=true;CharSet=utf8;";
+        public const string ConnectionString = @"XpoProvider=MySql;server=192.168.103.251;port=3306;user id=tester; password=developer; database=inventory_cycsa;persist security info=true;CharSet=utf8;";
+        //public const string ConnectionString = @"XpoProvider=MySql;server=172.17.0.2;port=3306;user id=adminventory; password=GreatIdea; database=inventory_cycsa;persist security info=true;CharSet=utf8;";
         public static void Connect(DevExpress.Xpo.DB.AutoCreateOption autoCreateOption)
         {
             XpoDefault.DataLayer = XpoDefault.GetDataLayer(ConnectionString, autoCreateOption);

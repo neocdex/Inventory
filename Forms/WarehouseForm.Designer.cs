@@ -31,14 +31,16 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WarehouseForm));
             DevExpress.XtraEditors.DXErrorProvider.ConditionValidationRule conditionValidationRule1 = new DevExpress.XtraEditors.DXErrorProvider.ConditionValidationRule();
-            this.txtWarehouseName = new DevExpress.XtraEditors.TextEdit();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
-            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
-            this.txtWarehouseDescription = new DevExpress.XtraEditors.MemoEdit();
+            this.txtLocation = new DevExpress.XtraEditors.TextEdit();
+            this.txtWarehouseName = new DevExpress.XtraEditors.TextEdit();
+            this.memoDescription = new DevExpress.XtraEditors.MemoEdit();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.dxValidationProvider = new DevExpress.XtraEditors.DXErrorProvider.DXValidationProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.unitOfWork)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xpMainCollection)).BeginInit();
@@ -46,20 +48,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.imageCollection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageCollection32x32)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtWarehouseName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtWarehouseDescription.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLocation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtWarehouseName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memoDescription.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dxValidationProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // xpMainCollection
             // 
+            this.xpMainCollection.DisplayableProperties = "This;warehouse_id;name;description;location";
             this.xpMainCollection.ObjectType = typeof(Inventory.ORMDataModelCode.Warehouse);
             // 
             // MainBindingSource
@@ -95,111 +100,125 @@
             // ribbon
             // 
             this.ribbon.ExpandCollapseItem.Id = 0;
-            this.ribbon.Size = new System.Drawing.Size(706, 155);
             this.ribbon.Toolbar.ShowCustomizeItem = false;
+            // 
+            // layoutControl1
+            // 
+            this.layoutControl1.Controls.Add(this.txtLocation);
+            this.layoutControl1.Controls.Add(this.txtWarehouseName);
+            this.layoutControl1.Controls.Add(this.memoDescription);
+            this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutControl1.Location = new System.Drawing.Point(0, 143);
+            this.layoutControl1.Name = "layoutControl1";
+            this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(350, 1, 250, 350);
+            this.layoutControl1.Root = this.layoutControlGroup1;
+            this.layoutControl1.Size = new System.Drawing.Size(903, 337);
+            this.layoutControl1.TabIndex = 2;
+            this.layoutControl1.Text = "layoutControl1";
+            // 
+            // txtLocation
+            // 
+            this.txtLocation.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.MainBindingSource, "location", true));
+            this.txtLocation.Location = new System.Drawing.Point(69, 241);
+            this.txtLocation.MenuManager = this.ribbon;
+            this.txtLocation.Name = "txtLocation";
+            this.txtLocation.Size = new System.Drawing.Size(598, 20);
+            this.txtLocation.StyleController = this.layoutControl1;
+            this.txtLocation.TabIndex = 5;
             // 
             // txtWarehouseName
             // 
             this.txtWarehouseName.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.MainBindingSource, "name", true));
-            this.txtWarehouseName.Location = new System.Drawing.Point(80, 12);
+            this.txtWarehouseName.Location = new System.Drawing.Point(69, 12);
+            this.txtWarehouseName.MenuManager = this.ribbon;
             this.txtWarehouseName.Name = "txtWarehouseName";
-            this.txtWarehouseName.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWarehouseName.Properties.Appearance.Options.UseFont = true;
-            this.txtWarehouseName.Size = new System.Drawing.Size(614, 30);
+            this.txtWarehouseName.Size = new System.Drawing.Size(598, 20);
             this.txtWarehouseName.StyleController = this.layoutControl1;
-            this.txtWarehouseName.TabIndex = 7;
+            this.txtWarehouseName.TabIndex = 4;
             conditionValidationRule1.ConditionOperator = DevExpress.XtraEditors.DXErrorProvider.ConditionOperator.IsNotBlank;
-            conditionValidationRule1.ErrorText = "Este valor no es válido";
+            conditionValidationRule1.ErrorText = "Por favor ingrese un valor";
             conditionValidationRule1.ErrorType = DevExpress.XtraEditors.DXErrorProvider.ErrorType.Critical;
             this.dxValidationProvider.SetValidationRule(this.txtWarehouseName, conditionValidationRule1);
             // 
-            // layoutControl1
+            // memoDescription
             // 
-            this.layoutControl1.Controls.Add(this.textEdit1);
-            this.layoutControl1.Controls.Add(this.txtWarehouseDescription);
-            this.layoutControl1.Controls.Add(this.txtWarehouseName);
-            this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.layoutControl1.Location = new System.Drawing.Point(0, 155);
-            this.layoutControl1.Name = "layoutControl1";
-            this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(706, 287);
-            this.layoutControl1.TabIndex = 10;
-            this.layoutControl1.Text = "layoutControl1";
-            // 
-            // textEdit1
-            // 
-            this.textEdit1.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.MainBindingSource, "location", true));
-            this.textEdit1.Location = new System.Drawing.Point(80, 253);
-            this.textEdit1.MenuManager = this.ribbon;
-            this.textEdit1.Name = "textEdit1";
-            this.textEdit1.Size = new System.Drawing.Size(614, 22);
-            this.textEdit1.StyleController = this.layoutControl1;
-            this.textEdit1.TabIndex = 12;
-            // 
-            // txtWarehouseDescription
-            // 
-            this.txtWarehouseDescription.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.MainBindingSource, "description", true));
-            this.txtWarehouseDescription.Location = new System.Drawing.Point(12, 65);
-            this.txtWarehouseDescription.Name = "txtWarehouseDescription";
-            this.txtWarehouseDescription.Size = new System.Drawing.Size(682, 184);
-            this.txtWarehouseDescription.StyleController = this.layoutControl1;
-            this.txtWarehouseDescription.TabIndex = 11;
+            this.memoDescription.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.MainBindingSource, "description", true));
+            this.memoDescription.Location = new System.Drawing.Point(12, 52);
+            this.memoDescription.MenuManager = this.ribbon;
+            this.memoDescription.Name = "memoDescription";
+            this.memoDescription.Size = new System.Drawing.Size(655, 185);
+            this.memoDescription.StyleController = this.layoutControl1;
+            this.memoDescription.TabIndex = 6;
             // 
             // layoutControlGroup1
             // 
-            this.layoutControlGroup1.CustomizationFormText = "layoutControlGroup1";
             this.layoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             this.layoutControlGroup1.GroupBordersVisible = false;
             this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlItem1,
             this.layoutControlItem2,
-            this.layoutControlItem3});
+            this.layoutControlItem1,
+            this.layoutControlItem3,
+            this.emptySpaceItem1,
+            this.emptySpaceItem2});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
-            this.layoutControlGroup1.Name = "layoutControlGroup1";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(706, 287);
-            this.layoutControlGroup1.Text = "layoutControlGroup1";
+            this.layoutControlGroup1.Name = "Root";
+            this.layoutControlGroup1.Size = new System.Drawing.Size(903, 337);
             this.layoutControlGroup1.TextVisible = false;
-            // 
-            // layoutControlItem1
-            // 
-            this.layoutControlItem1.Control = this.txtWarehouseDescription;
-            this.layoutControlItem1.CustomizationFormText = "layoutControlItem1";
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 34);
-            this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(686, 207);
-            this.layoutControlItem1.Text = "Descripción";
-            this.layoutControlItem1.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(65, 16);
             // 
             // layoutControlItem2
             // 
-            this.layoutControlItem2.Control = this.txtWarehouseName;
-            this.layoutControlItem2.CustomizationFormText = "Almacén";
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem2.Control = this.txtLocation;
+            this.layoutControlItem2.Location = new System.Drawing.Point(0, 229);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(686, 34);
-            this.layoutControlItem2.Text = "Almacén";
-            this.layoutControlItem2.TextSize = new System.Drawing.Size(65, 16);
+            this.layoutControlItem2.Size = new System.Drawing.Size(659, 24);
+            this.layoutControlItem2.Text = "Ubicado en";
+            this.layoutControlItem2.TextSize = new System.Drawing.Size(54, 13);
+            // 
+            // layoutControlItem1
+            // 
+            this.layoutControlItem1.Control = this.txtWarehouseName;
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem1.Name = "layoutControlItem1";
+            this.layoutControlItem1.Size = new System.Drawing.Size(659, 24);
+            this.layoutControlItem1.Text = "Almacén";
+            this.layoutControlItem1.TextSize = new System.Drawing.Size(54, 13);
             // 
             // layoutControlItem3
             // 
-            this.layoutControlItem3.Control = this.textEdit1;
-            this.layoutControlItem3.CustomizationFormText = "Ubicado en";
-            this.layoutControlItem3.Location = new System.Drawing.Point(0, 241);
+            this.layoutControlItem3.Control = this.memoDescription;
+            this.layoutControlItem3.Location = new System.Drawing.Point(0, 24);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(686, 26);
-            this.layoutControlItem3.Text = "Ubicado en";
-            this.layoutControlItem3.TextSize = new System.Drawing.Size(65, 16);
+            this.layoutControlItem3.Size = new System.Drawing.Size(659, 205);
+            this.layoutControlItem3.Text = "Descripción";
+            this.layoutControlItem3.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem3.TextSize = new System.Drawing.Size(54, 13);
+            // 
+            // emptySpaceItem1
+            // 
+            this.emptySpaceItem1.AllowHotTrack = false;
+            this.emptySpaceItem1.Location = new System.Drawing.Point(659, 0);
+            this.emptySpaceItem1.Name = "emptySpaceItem1";
+            this.emptySpaceItem1.Size = new System.Drawing.Size(224, 317);
+            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
+            // 
+            // emptySpaceItem2
+            // 
+            this.emptySpaceItem2.AllowHotTrack = false;
+            this.emptySpaceItem2.Location = new System.Drawing.Point(0, 253);
+            this.emptySpaceItem2.Name = "emptySpaceItem2";
+            this.emptySpaceItem2.Size = new System.Drawing.Size(659, 64);
+            this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
+            // 
+            // dxValidationProvider
+            // 
+            this.dxValidationProvider.ValidationMode = DevExpress.XtraEditors.DXErrorProvider.ValidationMode.Auto;
             // 
             // WarehouseForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(706, 473);
+            this.ClientSize = new System.Drawing.Size(903, 511);
             this.Controls.Add(this.layoutControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "WarehouseForm";
             this.Text = "WarehouseForm";
             this.Controls.SetChildIndex(this.ribbon, 0);
@@ -210,30 +229,35 @@
             ((System.ComponentModel.ISupportInitialize)(this.imageCollection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageCollection32x32)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtWarehouseName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtWarehouseDescription.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLocation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtWarehouseName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memoDescription.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dxValidationProvider)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private DevExpress.XtraEditors.TextEdit txtWarehouseName;
         private DevExpress.XtraLayout.LayoutControl layoutControl1;
-        private DevExpress.XtraEditors.TextEdit textEdit1;
-        private DevExpress.XtraEditors.MemoEdit txtWarehouseDescription;
         private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
+        private DevExpress.XtraEditors.TextEdit txtWarehouseName;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
+        private DevExpress.XtraEditors.TextEdit txtLocation;
+        private DevExpress.XtraEditors.MemoEdit memoDescription;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
+        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
+        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
         private DevExpress.XtraEditors.DXErrorProvider.DXValidationProvider dxValidationProvider;
     }
 }

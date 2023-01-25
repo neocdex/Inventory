@@ -232,6 +232,6 @@
     <value>157, 17</value>
   </metadata>
   <data name="xpMainCollection.DisplayableProperties" xml:space="preserve">
-    <value>This;product_id;name;description;serialnumber;serie;model;partnumber;lote;discontinued;discontinued_date;weight;category_id!;category_id!Key;category_id;brand_id!;brand_id!Key;brand_id;uom_id!;uom_id!Key;uom_id;barcode_digits;Status_idStatus!;Status_idStatus!Key;Status_idStatus;fenergia;tmante;totalStock;Inventorytransactions;Storeds</value>
+    <value>This;product_id;productcode;name;serialnumber;category_id!;category_id!Key;category_id;brand_id!;brand_id!Key;brand_id;uom_id!;uom_id!Key;uom_id;Status_idStatus!;Status_idStatus!Key;Status_idStatus;totalStock;Inventorytransactions;Storeds</value>
   </data>
 </root>

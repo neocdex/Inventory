@@ -10,7 +10,7 @@ namespace Inventory.Reports
     {
         public BaseReport()
         {
-            DevExpress.Data.Helpers.IsDesignModeHelper.BypassDesignModeAlterationDetection = true;
+            //DevExpress.Data.Helpers.IsDesignModeHelper.BypassDesignModeAlterationDetection = true;
             InitializeComponent();
         }
 

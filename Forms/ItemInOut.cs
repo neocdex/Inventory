@@ -15,6 +15,7 @@ namespace Inventory.Forms
     public partial class frmItemInOut : Form
     {
         Products item;
+        List<StoredItem> stored;
         private DevExpress.XtraEditors.DXErrorProvider.ConditionValidationRule conditionValidationRuleW2;
         private DevExpress.XtraEditors.DXErrorProvider.CompareAgainstControlValidationRule compValidationRuleW1W2;
         private DevExpress.XtraEditors.DXErrorProvider.ConditionValidationRule conditionValidationRuleRef;
@@ -42,6 +43,7 @@ namespace Inventory.Forms
             }            
         }
         private void PostInitializeComponent() {
+            stored = null;            
             //ErrorMsgSelectValue
             pleaseSelectValue = "Por favor seleccione un valor";
             spEditUnits.Properties.MaxValue = decimal.MaxValue;
@@ -52,7 +54,7 @@ namespace Inventory.Forms
 
             compValidationRuleW1W2 = new DevExpress.XtraEditors.DXErrorProvider.CompareAgainstControlValidationRule("W1notequalW2", lookupWarehouse, DevExpress.XtraEditors.DXErrorProvider.CompareControlOperator.NotEquals);
             //ErrorMsgSameWarehouse
-            compValidationRuleW1W2.ErrorText = "Los almacenes de origen y destino no puede ser iguales";
+            compValidationRuleW1W2.ErrorText = "Los almacenes de origen y destino no pueden ser iguales";
             compValidationRuleW1W2.ErrorType = DevExpress.XtraEditors.DXErrorProvider.ErrorType.Critical;
 
             conditionValidationRuleRef = new DevExpress.XtraEditors.DXErrorProvider.ConditionValidationRule();
@@ -74,6 +76,7 @@ namespace Inventory.Forms
                 if (!uow.InTransaction) //Check this model of transaction
                     uow.BeginTransaction();
 
+                if (stored == null) stored = new List<StoredItem>();
                 Transactionreason treason = (Transactionreason)lookUpEditReason.EditValue;
                 Warehouse warehouse = (Warehouse)lookupWarehouse.EditValue;
                 double units = Convert.ToDouble(spEditUnits.EditValue);
@@ -87,11 +90,12 @@ namespace Inventory.Forms
                     return;
                 }
                 switch (treason.operation) {
-                    case "-"://no puede salir más unidades de las existentes
+                    case 1://Salida. No puede salir más unidades de las existentes
                         //buscar unidades existentes en almacén seleccionado
                         if (sourceStore.quantityInHand >= units)
                         {
                             sourceIVT.units = units * -1;
+                            //sourceIVT.description = treason.name;
                         }
                         else {
                             //MessageNoStock
@@ -99,7 +103,7 @@ namespace Inventory.Forms
                             return;
                         }
                         break;
-                    case "="://no puede traspasarse más unidades de las existentes
+                    case 0://Traspaso. No puede traspasarse más unidades de las existentes
                         if (sourceStore.quantityInHand >= units)
                         { //realizar traspaso
 
@@ -117,19 +121,19 @@ namespace Inventory.Forms
                                 item.StoredItems.Add(destinationStore);
                             }
                             //else {//si está en la bodega destino, crear una transaction
-                                Inventorytransaction destinationIVT = new Inventorytransaction(uow);
-                                destinationIVT.product_id = item;
-                                destinationIVT.warehouse_id = warehouse2;
-                                destinationIVT.description = "Traspaso desde la bodega "+warehouse.name;
-                                destinationIVT.storeKeeper = txtStoreKeeper.Text;
-                                destinationIVT.transactionReason = treason;
-                                destinationIVT.date = dateInventory.DateTime;
-                                destinationIVT.units = units;
-                                item.Inventorytransactions.Add(destinationIVT);
+                            Inventorytransaction destinationIVT = new Inventorytransaction(uow);
+                            destinationIVT.product_id = item;
+                            destinationIVT.warehouse_id = warehouse2;
+                            destinationIVT.description = "Traspaso desde bodega: "+warehouse.name;
+                            destinationIVT.storeKeeper = txtStoreKeeper.Text;
+                            destinationIVT.transactionReason = treason;
+                            destinationIVT.date = dateInventory.DateTime;
+                            destinationIVT.units = units;
+                            item.Inventorytransactions.Add(destinationIVT);
                             //}                            
                             //realizar salida en origen
                             sourceIVT.units = units*-1;
-                            sourceIVT.description = "Traspaso hacia bodega" + warehouse2.name;
+                            sourceIVT.description = "Traspaso hacia bodega: " + warehouse2.name;
                         }
                         else {
                             //MessageNoStock
@@ -137,21 +141,26 @@ namespace Inventory.Forms
                             return;
                         }
                         break;
-                    default:
+                    default: //Compra
                         sourceIVT.units = units;
+                        //sourceIVT.description = treason.name;
                         break;
                 }
                 sourceIVT.product_id = item;
-                sourceIVT.warehouse_id = warehouse;
-                //sourceIVT.description = "";
+                sourceIVT.warehouse_id = warehouse;                
                 sourceIVT.storeKeeper = txtStoreKeeper.Text;
                 sourceIVT.supplier_id = (Suppliers)lookUpEditSuppliers.EditValue;
                 sourceIVT.transactionReason = treason;
+                
                 sourceIVT.date = dateInventory.DateTime;
                 sourceIVT.referenceNumber = txtInvoiceNumber.Text.Trim();
                 if (cBEInvoiceType.EditValue != null)
                     sourceIVT.creditInvoice = cBEInvoiceType.EditValue.Equals("Contado") ? false : true;
                 item.Inventorytransactions.Add(sourceIVT);
+                if ((treason.operation <= 1) && (sourceStore.quantityInHand - units) == 0)
+                { //si item en X almacen aqueda en 0 unidades, agregar para eliminar item del almacén
+                    stored.Add(sourceStore);
+                }
                 btnSaveProduct.Enabled = true;
             }
             catch (Exception ex) { 
@@ -181,7 +190,7 @@ namespace Inventory.Forms
                 }
                 //assign InventoryTransaction to dataGrid
                 item.Inventorytransactions.DisplayableProperties = "warehouse_id.name;date;supplier_id.suppliername;description;storeKeeper;referenceNumber;creditInvoice;transactionReason;units";
-                configGridTransactionProperties();
+                gridInventoryTransaction.DataSource = item.Inventorytransactions;                  
                 loadWarehouses();
                 //set default value to dateEdit controls
                 dateInventory.DateTime = DateTime.Now;    
@@ -201,12 +210,7 @@ namespace Inventory.Forms
             lookUpWarehouse2.Properties.DisplayMember = "name";
             lookUpWarehouse2.Properties.ValueMember = "This";
             lookUpWarehouse2.Properties.Columns.Add(new LookUpColumnInfo("name", 0));
-        }
-
-        private void configGridTransactionProperties()
-        {
-            gridInventoryTransaction.DataSource = item.Inventorytransactions;  
-        }
+        }       
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -224,6 +228,13 @@ namespace Inventory.Forms
             try
             {                
                 uow.CommitChanges();
+                bool saveChanges = false;
+                //delete storeditem with qtyInHand = 0
+                foreach (StoredItem sti in stored) {
+                    uow.Delete(sti);
+                    saveChanges = true;
+                }
+                if(saveChanges) uow.CommitChanges();
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
             }
             catch (Exception ex)
@@ -233,13 +244,7 @@ namespace Inventory.Forms
                 this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             }
             this.Close();
-        }
-
-        private void frmItemInOut_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            //MDIParent parent = (MDIParent)this.MdiParent;
-            //parent.EntradaSalidaMenuItem = true;
-        }        
+        }           
         
         private void ShowHideLayoutUnitsInput(string op, DevExpress.XtraLayout.Utils.LayoutVisibility visibility)
         {     
@@ -260,28 +265,31 @@ namespace Inventory.Forms
         {
             dxValidationProvider.RemoveControlError(lookUpEditReason);
             String option = ((Transactionreason)lookUpEditReason.EditValue).name;
-            if (option.Contains("Traspaso")) {
-                lookUpWarehouse2.Enabled = true;
-                layoutInvoice.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
-                layoutInvoiceType.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
-                SupplierLayoutCtrlItem.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
-                emptySpaceItem7.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
-            }
-            else if (option.Contains("Compra")||option.Contains("compra"))
-            {
-                layoutInvoice.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.OnlyInRuntime;
-                layoutInvoiceType.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.OnlyInRuntime;
-                SupplierLayoutCtrlItem.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.OnlyInRuntime;
-                emptySpaceItem7.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.OnlyInRuntime;
-                if (lookUpWarehouse2.Enabled) lookUpWarehouse2.Enabled = false;
-            }
-            else {
-                layoutInvoice.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
-                layoutInvoiceType.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
-                SupplierLayoutCtrlItem.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
-                emptySpaceItem7.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
-                lookUpWarehouse2.Enabled = false;
-            }                
+            int operation = ((Transactionreason)lookUpEditReason.EditValue).operation;
+            switch (operation) { 
+                case 0: //Traspaso
+                    layoutControlItemW2.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.OnlyInRuntime;
+                    //lookUpWarehouse2.Enabled = true;
+                    layoutInvoice.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+                    layoutInvoiceType.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+                    SupplierLayoutCtrlItem.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;                    
+                    break;
+                case 1: //Salida                    
+                    layoutInvoice.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+                    layoutInvoiceType.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+                    SupplierLayoutCtrlItem.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;                    
+                    layoutControlItemW2.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+                    //lookUpWarehouse2.Enabled = false;
+                    break;
+                case 2://Entrada-Compra
+                    layoutInvoice.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.OnlyInRuntime;
+                    layoutInvoiceType.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.OnlyInRuntime;
+                    SupplierLayoutCtrlItem.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.OnlyInRuntime;
+                    //emptySpaceItem7.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.OnlyInRuntime;
+                    layoutControlItemW2.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+                    //if (lookUpWarehouse2.Enabled) lookUpWarehouse2.Enabled = false;
+                    break;
+            }                          
         }
 
         private void lookupWarehouse_EditValueChanged(object sender, EventArgs e)

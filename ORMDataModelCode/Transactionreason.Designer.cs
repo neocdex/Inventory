@@ -31,12 +31,12 @@ namespace Inventory.ORMDataModelCode
             get { return fname; }
             set { SetPropertyValue<string>("name", ref fname, value); }
         }
-        string foperation;
-        [Size(1)]
-        public string operation
+        int foperation;
+        //[Size(1)]
+        public int operation
         {
             get { return foperation; }
-            set { SetPropertyValue<string>("operation", ref foperation, value); }
+            set { SetPropertyValue<int>("operation", ref foperation, value); }
         }
         [Association(@"InventorytransactionReferencesTransactionreason")]
         public XPCollection<Inventorytransaction> Inventorytransactions { get { return GetCollection<Inventorytransaction>("Inventorytransactions"); } }

@@ -16,7 +16,9 @@ namespace Inventory.Forms
     public partial class CategoriesListForm : BaseList
     {
         
-        private bool ErrorAdd;
+        private bool ErrorPresent;
+        private bool RecordSaved;
+        private string prefixCode;
         public CategoriesListForm()
         {
             InitializeComponent();
@@ -34,88 +36,107 @@ namespace Inventory.Forms
 
         private void gridViewCategories_ValidateRow(object sender, DevExpress.XtraGrid.Views.Base.ValidateRowEventArgs e)
         {
-            GridColumn categoryName = gridViewCategories.Columns["name"];
-            GridColumn categoryCode = gridViewCategories.Columns["code"];
-            //gridViewCategories.ClearColumnErrors();
-            //if(gridViewCategories.GetRowCellValue(e.RowHandle, categoryName) == null||
-            //    gridViewCategories.GetRowCellDisplayText(e.RowHandle, categoryName) == string.Empty)
-            //{
-                
-            //}
-            //else{
-                
-            //}
+            DevExpress.XtraGrid.Views.Grid.GridView view = (DevExpress.XtraGrid.Views.Grid.GridView)sender;
+            view.ClearColumnErrors();
+            e.ErrorText = "";
+            string code = Convert.ToString(view.GetRowCellValue(e.RowHandle, "code"));
+            if (code == string.Empty)
+            {
+                e.ErrorText = "Código no puede ser vacío. ";
+            }
+            //else this.prefixCode = code;
+            string name = Convert.ToString(view.GetRowCellValue(e.RowHandle, "name"));
+            if (name == string.Empty)
+            {
+                e.ErrorText = "No se admite valor vacío para el nombre de la categoría. ";
+            }
+            if (e.ErrorText != string.Empty)
+            {
+                e.Valid = false;
+            }            
         }
 
         private void gridViewCategories_InvalidRowException(object sender, DevExpress.XtraGrid.Views.Base.InvalidRowExceptionEventArgs e)
         {
-            e.ExceptionMode = DevExpress.XtraEditors.Controls.ExceptionMode.NoAction;            
+            e.ExceptionMode = DevExpress.XtraEditors.Controls.ExceptionMode.DisplayError;
         }
         protected override void OnSaveRecordClicked()
-        {
-            
-            //revisar código porque da exepción si aún no se ha terminado de editar grid
-            
-            gridViewCategories.CloseEditor();
-            if (!ErrorAdd)
-            {
-                gridViewCategories.UpdateCurrentRow();                
-                base.OnSaveRecordClicked();
-                try
-                {
-                    //obtener última categoría guardada, si no hay habido error
-                    Category c = xpMainCollection[xpMainCollection.Count - 1] as Category;
-
-                    Secuence_data secuence = new Secuence_data(unitOfWork);
-                    secuence.name = c.name;
-                    secuence.increment = secuence.min_value = 1;
-                    secuence.max_value = 9999999;
-                    secuence.cur_value = 1;
-                    secuence.Save();
-                    unitOfWork.CommitChanges();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+        {   
+            gridViewCategories.CloseEditor();           
+            if(gridViewCategories.UpdateCurrentRow() && prefixCode!=string.Empty){
+                CreateSequence(prefixCode);
+                base.OnSaveRecordClicked();                
+            }                      
         }
 
         private void gridViewCategories_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
         {
-            if (gridViewCategories.FocusedColumn.FieldName == "code")
-            {
-                //comprobar que no hay código duplicado
-                string code = Convert.ToString(e.Value);
-                if (code == string.Empty) {
-                    e.Valid = false;
-                    e.ErrorText = "Código no puede ser vacío";
-                    return;
-                }
-                string sql = String.Format("Select category_id, code from Category where code = {0}", code);
-                SelectedData resultset = unitOfWork.ExecuteQuery(sql);
-
-                if (resultset != null && resultset.ResultSet[0].Rows.Length > 0)
-                { //valor duplicado
-                    e.Valid = false;
-                    e.ErrorText = "Código duplicado";
-                }
-            }
-            else if (gridViewCategories.FocusedColumn.FieldName == "name")
-            {
-                if (e.Value == null || Convert.ToString(e.Value) == string.Empty)
-                {
-                    e.Valid = false;
-                    e.ErrorText = "No se admite valor vacío";
-                }
-            }
-            else { e.Valid = true; ErrorAdd = false; }
+            //DevExpress.XtraGrid.Views.Base.ColumnView view = (DevExpress.XtraGrid.Views.Base.ColumnView)sender;
+            //GridColumn column = view.FocusedColumn;
+            //e.ErrorText = "";
+            //if (column.FieldName == "code")
+            //{
+            //    //column code can't be empty
+            //    string code = Convert.ToString(e.Value).Trim();
+            //    if (code == string.Empty)
+            //    {
+            //        e.Valid = false;
+            //        e.ErrorText = "Código no puede ser vacío";
+            //    }
+            //    else {
+            //        this.prefixCode = code;
+            //    }
+            //}
+            //else if (column.FieldName == "name")
+            //{
+            //    if (e.Value == null || Convert.ToString(e.Value) == string.Empty)
+            //    {
+            //        e.Valid = false;
+            //        e.ErrorText = "No se admite valor vacío";
+            //    }
+            //}
+            //else { e.Valid = true; ErrorPresent = false; }
         }
 
         private void gridViewCategories_InvalidValueException(object sender, DevExpress.XtraEditors.Controls.InvalidValueExceptionEventArgs e)
         {
             e.ExceptionMode = DevExpress.XtraEditors.Controls.ExceptionMode.DisplayError;
-            ErrorAdd = true;
-        }      
+            ErrorPresent = true;
+        }
+
+        private void CreateSequence(string seqname) {
+            try
+            {
+                String query = String.Format("select count(*) from sequence_data where name = '{0}'", seqname);
+                object o = unitOfWork.ExecuteScalar(query);
+
+                if (Convert.ToInt32(o) == 0)
+                {
+                    Sequence_data sequence = new Sequence_data(unitOfWork);
+                    sequence.name = seqname;
+                    sequence.increment = sequence.min_value = 1;
+                    sequence.max_value = 9999999;
+                    sequence.cur_value = 1;
+                    sequence.Save();
+                    //unitOfWork.CommitChanges();
+                }
+            }
+            catch (Exception ex) { }     
+        }
+        private void gridViewCategories_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
+        {            
+            try
+            {
+               Category c = e.Row as Category;
+               this.prefixCode = c.code;
+            }
+            catch (Exception ex) { }  
+        }
+
+        private void gridViewCategories_InitNewRow(object sender, DevExpress.XtraGrid.Views.Grid.InitNewRowEventArgs e)
+        {
+            RecordSaved = false;
+            ErrorPresent = false;
+        }             
     }
 }

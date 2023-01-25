@@ -136,6 +136,13 @@ namespace Inventory.ORMDataModelCode
             get { return fStatus_idStatus; }
             set { SetPropertyValue<Status>("Status_idStatus", ref fStatus_idStatus, value); }
         }
+        string festado;
+        [Size(25)]
+        public string estado
+        {
+            get { return festado; }
+            set { SetPropertyValue<string>("festado", ref festado, value); }
+        }
         string ffenergia;
         [Size(30)]
         public string fenergia

@@ -120,5 +120,28 @@ namespace Inventory.Forms
             f.Report = report;
             f.Show();
         }
+        protected override void OnEditClicked() {
+            Warehouse w = this.MainBindingSource.Current as Warehouse;
+            if (w != null) {
+                BaseDetail f = new WarehouseForm();
+                f.MdiParent = this.MdiParent;
+                f.SetItem(w);
+                //f.Show();
+                f.Visible = true;
+            }
+        }
+
+        private void barBtnWarehouseTransfer_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                WarehouseTransferForm wtf = new WarehouseTransferForm();
+                wtf.ShowDialog();
+
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message, Setup.GetMessage("CaptionError"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

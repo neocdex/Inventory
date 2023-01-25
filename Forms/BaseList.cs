@@ -29,7 +29,7 @@ namespace Inventory.Forms
                 MainBindingSource.EndEdit();
                 unitOfWork.Save(MainBindingSource);
                 unitOfWork.CommitChanges();
-                MessageBox.Show("Transacción completada", "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Transacción completada", "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex) {                
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);                

@@ -42,10 +42,10 @@
             this.gridViewInventory = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colproduct_id = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colname = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colserialnumber = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coldescription = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridcolwarehouse = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coldiscontinued = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.coldiscontinued_date = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridcolcategory = new DevExpress.XtraGrid.Columns.GridColumn();
             this.CategoryRepositoryItemLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.xpCategoryCollection = new DevExpress.Xpo.XPCollection(this.components);
@@ -58,7 +58,6 @@
             this.gridcolstatus = new DevExpress.XtraGrid.Columns.GridColumn();
             this.StatusRepositoryItemLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.xpCollectionStatus = new DevExpress.Xpo.XPCollection(this.components);
-            this.coltmante = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coltotalstock = new DevExpress.XtraGrid.Columns.GridColumn();
             this.WarehouseRepositoryItemLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.xpWarehouseCollection = new DevExpress.Xpo.XPCollection(this.components);
@@ -70,6 +69,8 @@
             this.ItemsByWarehouseReport = new DevExpress.XtraBars.BarButtonItem();
             this.TransactionsReport = new DevExpress.XtraBars.BarButtonItem();
             this.ItemsByWarehouseReport2 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnItemByCategory = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.unitOfWork)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xpMainCollection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainBindingSource)).BeginInit();
@@ -121,6 +122,10 @@
             this.imageCollection32x32.InsertGalleryImage("print_32x32.png", "images/print/print_32x32.png", DevExpress.Images.ImageResourceCache.Default.GetImage("images/print/print_32x32.png"), 6);
             this.imageCollection32x32.Images.SetKeyName(6, "print_32x32.png");
             this.imageCollection32x32.Images.SetKeyName(7, "shipping_handle_32x32.png");
+            this.imageCollection32x32.InsertGalleryImage("barcode_32x32.png", "images/content/barcode_32x32.png", DevExpress.Images.ImageResourceCache.Default.GetImage("images/content/barcode_32x32.png"), 13);
+            this.imageCollection32x32.Images.SetKeyName(13, "barcode_32x32.png");
+            this.imageCollection32x32.InsertGalleryImage("groupfieldcollection_32x32.png", "images/reports/groupfieldcollection_32x32.png", DevExpress.Images.ImageResourceCache.Default.GetImage("images/reports/groupfieldcollection_32x32.png"), 14);
+            this.imageCollection32x32.Images.SetKeyName(14, "groupfieldcollection_32x32.png");
             // 
             // ribbonPage1
             // 
@@ -138,9 +143,11 @@
             this.AllItemReport,
             this.ItemsByWarehouseReport,
             this.TransactionsReport,
-            this.ItemsByWarehouseReport2});
+            this.ItemsByWarehouseReport2,
+            this.barButtonItem1,
+            this.barBtnItemByCategory});
             this.ribbon.Margin = new System.Windows.Forms.Padding(3);
-            this.ribbon.MaxItemId = 13;
+            this.ribbon.MaxItemId = 15;
             this.ribbon.Size = new System.Drawing.Size(1015, 143);
             this.ribbon.Toolbar.ShowCustomizeItem = false;
             // 
@@ -148,8 +155,10 @@
             // 
             this.ribbonPageGroup2.ItemLinks.Add(this.AllItemReport);
             this.ribbonPageGroup2.ItemLinks.Add(this.ItemsByWarehouseReport);
+            this.ribbonPageGroup2.ItemLinks.Add(this.barBtnItemByCategory);
             this.ribbonPageGroup2.ItemLinks.Add(this.TransactionsReport);
             this.ribbonPageGroup2.ItemLinks.Add(this.ItemsByWarehouseReport2);
+            this.ribbonPageGroup2.ItemLinks.Add(this.barButtonItem1);
             // 
             // StoredCardView
             // 
@@ -259,19 +268,19 @@
             this.gridViewInventory.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.colproduct_id,
             this.colname,
+            this.colserialnumber,
             this.coldescription,
             this.gridcolwarehouse,
             this.coldiscontinued,
-            this.coldiscontinued_date,
             this.gridcolcategory,
             this.gridcolbrand,
             this.colunit,
             this.gridcolstatus,
-            this.coltmante,
             this.coltotalstock});
             this.gridViewInventory.GridControl = this.InventoryGridControl;
             this.gridViewInventory.Name = "gridViewInventory";
             this.gridViewInventory.OptionsFind.AlwaysVisible = true;
+            this.gridViewInventory.OptionsView.ShowFooter = true;
             this.gridViewInventory.OptionsView.ShowGroupPanel = false;
             this.gridViewInventory.RowStyle += new DevExpress.XtraGrid.Views.Grid.RowStyleEventHandler(this.gridViewInventory_RowStyle);
             this.gridViewInventory.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridViewInventory_CustomUnboundColumnData);
@@ -284,6 +293,7 @@
             this.colproduct_id.OptionsColumn.ReadOnly = true;
             this.colproduct_id.Visible = true;
             this.colproduct_id.VisibleIndex = 0;
+            this.colproduct_id.Width = 93;
             // 
             // colname
             // 
@@ -293,14 +303,24 @@
             this.colname.OptionsColumn.ReadOnly = true;
             this.colname.Visible = true;
             this.colname.VisibleIndex = 1;
+            this.colname.Width = 155;
+            // 
+            // colserialnumber
+            // 
+            this.colserialnumber.Caption = "No. Serie";
+            this.colserialnumber.FieldName = "serialnumber";
+            this.colserialnumber.Name = "colserialnumber";
+            this.colserialnumber.OptionsColumn.ReadOnly = true;
+            this.colserialnumber.Visible = true;
+            this.colserialnumber.VisibleIndex = 2;
+            this.colserialnumber.Width = 93;
             // 
             // coldescription
             // 
             this.coldescription.Caption = "Descripción";
             this.coldescription.FieldName = "description";
             this.coldescription.Name = "coldescription";
-            this.coldescription.Visible = true;
-            this.coldescription.VisibleIndex = 2;
+            this.coldescription.Width = 91;
             // 
             // gridcolwarehouse
             // 
@@ -311,6 +331,7 @@
             this.gridcolwarehouse.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.gridcolwarehouse.Visible = true;
             this.gridcolwarehouse.VisibleIndex = 3;
+            this.gridcolwarehouse.Width = 210;
             // 
             // coldiscontinued
             // 
@@ -320,14 +341,6 @@
             this.coldiscontinued.Visible = true;
             this.coldiscontinued.VisibleIndex = 4;
             // 
-            // coldiscontinued_date
-            // 
-            this.coldiscontinued_date.Caption = "Fecha descontinuad";
-            this.coldiscontinued_date.FieldName = "discontinued_date";
-            this.coldiscontinued_date.Name = "coldiscontinued_date";
-            this.coldiscontinued_date.Visible = true;
-            this.coldiscontinued_date.VisibleIndex = 5;
-            // 
             // gridcolcategory
             // 
             this.gridcolcategory.Caption = "Categoría";
@@ -335,7 +348,7 @@
             this.gridcolcategory.FieldName = "category_id!";
             this.gridcolcategory.Name = "gridcolcategory";
             this.gridcolcategory.Visible = true;
-            this.gridcolcategory.VisibleIndex = 6;
+            this.gridcolcategory.VisibleIndex = 5;
             // 
             // CategoryRepositoryItemLookUpEdit
             // 
@@ -367,7 +380,8 @@
             this.gridcolbrand.FieldName = "brand_id!";
             this.gridcolbrand.Name = "gridcolbrand";
             this.gridcolbrand.Visible = true;
-            this.gridcolbrand.VisibleIndex = 7;
+            this.gridcolbrand.VisibleIndex = 6;
+            this.gridcolbrand.Width = 89;
             // 
             // BrandRepositoryItemLookUpEdit
             // 
@@ -399,7 +413,8 @@
             this.colunit.FieldName = "uom_id!";
             this.colunit.Name = "colunit";
             this.colunit.Visible = true;
-            this.colunit.VisibleIndex = 8;
+            this.colunit.VisibleIndex = 7;
+            this.colunit.Width = 42;
             // 
             // UOMRepositoryItemLookUpEdit
             // 
@@ -428,10 +443,11 @@
             // 
             this.gridcolstatus.Caption = "Estado";
             this.gridcolstatus.ColumnEdit = this.StatusRepositoryItemLookUpEdit;
-            this.gridcolstatus.FieldName = "Status_idStatus!";
+            this.gridcolstatus.FieldName = "estado";
             this.gridcolstatus.Name = "gridcolstatus";
             this.gridcolstatus.Visible = true;
-            this.gridcolstatus.VisibleIndex = 9;
+            this.gridcolstatus.VisibleIndex = 8;
+            this.gridcolstatus.Width = 66;
             // 
             // StatusRepositoryItemLookUpEdit
             // 
@@ -446,7 +462,7 @@
             this.StatusRepositoryItemLookUpEdit.Name = "StatusRepositoryItemLookUpEdit";
             this.StatusRepositoryItemLookUpEdit.NullText = "";
             this.StatusRepositoryItemLookUpEdit.ShowHeader = false;
-            this.StatusRepositoryItemLookUpEdit.ValueMember = "This";
+            this.StatusRepositoryItemLookUpEdit.ValueMember = "status";
             this.StatusRepositoryItemLookUpEdit.EditValueChanged += new System.EventHandler(this.StatusRepositoryItemLookUpEdit_EditValueChanged);
             // 
             // xpCollectionStatus
@@ -456,25 +472,17 @@
             this.xpCollectionStatus.ObjectType = typeof(Inventory.ORMDataModelCode.Status);
             this.xpCollectionStatus.Session = this.unitOfWork;
             // 
-            // coltmante
-            // 
-            this.coltmante.Caption = "T/Mante";
-            this.coltmante.FieldName = "tmante";
-            this.coltmante.Name = "coltmante";
-            this.coltmante.Visible = true;
-            this.coltmante.VisibleIndex = 10;
-            // 
             // coltotalstock
             // 
-            this.coltotalstock.Caption = "Total en existencias";
+            this.coltotalstock.Caption = "Existencias";
             this.coltotalstock.FieldName = "totalStock";
             this.coltotalstock.Name = "coltotalstock";
             this.coltotalstock.OptionsColumn.AllowEdit = false;
             this.coltotalstock.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "coltotalstock", "{0:c2}")});
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "totalStock", "{0:n2}")});
             this.coltotalstock.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             this.coltotalstock.Visible = true;
-            this.coltotalstock.VisibleIndex = 11;
+            this.coltotalstock.VisibleIndex = 9;
             // 
             // WarehouseRepositoryItemLookUpEdit
             // 
@@ -569,6 +577,22 @@
             this.ItemsByWarehouseReport2.Name = "ItemsByWarehouseReport2";
             this.ItemsByWarehouseReport2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ItemsByWarehouseReport2_ItemClick);
             // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "QRCode";
+            this.barButtonItem1.Id = 13;
+            this.barButtonItem1.LargeImageIndex = 13;
+            this.barButtonItem1.Name = "barButtonItem1";
+            this.barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick);
+            // 
+            // barBtnItemByCategory
+            // 
+            this.barBtnItemByCategory.Caption = "Items por Categoría";
+            this.barBtnItemByCategory.Id = 14;
+            this.barBtnItemByCategory.LargeImageIndex = 14;
+            this.barBtnItemByCategory.Name = "barBtnItemByCategory";
+            this.barBtnItemByCategory.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnItemByCategory_ItemClick);
+            // 
             // InventoryTELForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -581,7 +605,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Inventario";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.InventoryForm_Load);
+            this.VisibleChanged += new System.EventHandler(this.InventoryTELForm_VisibleChanged);
             this.Controls.SetChildIndex(this.ribbon, 0);
             this.Controls.SetChildIndex(this.layoutControl, 0);
             ((System.ComponentModel.ISupportInitialize)(this.unitOfWork)).EndInit();
@@ -640,17 +664,18 @@
         private DevExpress.XtraGrid.Columns.GridColumn colname;
         private DevExpress.XtraGrid.Columns.GridColumn coldescription;
         private DevExpress.XtraGrid.Columns.GridColumn coldiscontinued;
-        private DevExpress.XtraGrid.Columns.GridColumn coldiscontinued_date;
         private DevExpress.XtraGrid.Columns.GridColumn gridcolcategory;
         private DevExpress.XtraGrid.Columns.GridColumn gridcolbrand;
         private DevExpress.XtraGrid.Columns.GridColumn colunit;
         private DevExpress.XtraGrid.Columns.GridColumn gridcolstatus;
-        private DevExpress.XtraGrid.Columns.GridColumn coltmante;
+        private DevExpress.XtraGrid.Columns.GridColumn colserialnumber;
         private DevExpress.XtraGrid.Columns.GridColumn coltotalstock;
         private DevExpress.XtraGrid.Columns.GridColumn gridcolwarehouse;
         private DevExpress.XtraBars.BarButtonItem AllItemReport;
         private DevExpress.XtraBars.BarButtonItem ItemsByWarehouseReport;
         private DevExpress.XtraBars.BarButtonItem TransactionsReport;
-        private DevExpress.XtraBars.BarButtonItem ItemsByWarehouseReport2;        
+        private DevExpress.XtraBars.BarButtonItem ItemsByWarehouseReport2;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private DevExpress.XtraBars.BarButtonItem barBtnItemByCategory;        
     }
 }

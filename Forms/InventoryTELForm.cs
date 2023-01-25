@@ -16,7 +16,11 @@ namespace Inventory.Forms
 {
     public partial class InventoryTELForm : BaseList
     {
-        public bool added;
+        bool ItemAdded;
+        public bool NewItemAdded{
+            set { ItemAdded = value; }
+            get { return ItemAdded; }
+        }
         public InventoryTELForm(String criteria=null)
         {            
             InitializeComponent();
@@ -28,7 +32,7 @@ namespace Inventory.Forms
 
         private void InventoryForm_Load(object sender, EventArgs e)
         {
-            gridViewInventory.BestFitColumns();            
+            //gridViewInventory.BestFitColumns();
         }       
 
         private void gridViewInventory_RowStyle(object sender, DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs e)
@@ -40,7 +44,8 @@ namespace Inventory.Forms
                 {
                     if (st.quantityInHand <= st.reorderQuantity)
                     {
-                        e.Appearance.BackColor = Color.OrangeRed;
+                        //Color.OrangeRed
+                        e.Appearance.BackColor = Color.FromArgb(255,90,60);                        
                         e.Appearance.ForeColor = Color.White;
                         e.HighPriority = true;
                         break;
@@ -105,8 +110,7 @@ namespace Inventory.Forms
                 Form f = new frmItemInOut(p);
                 //f.MdiParent = this.MdiParent;
                 if (f.ShowDialog(this) == DialogResult.OK)
-                {
-                    
+                {                    
                     OnReloadClicked();
                 }                
                 
@@ -123,7 +127,7 @@ namespace Inventory.Forms
                 ItemForm f = new ItemForm();
                 f.MdiParent = this.MdiParent;
                 f.OnNewClicked();
-                added = false;
+                ItemAdded = false;
                 f.Show();
             }
             catch (Exception ex) {
@@ -141,19 +145,20 @@ namespace Inventory.Forms
         }
         public override void OnReloadClicked()
         {
-            if (added)
+            if (ItemAdded)
             {   xpMainCollection.Reload();                
-                added = false;
+                ItemAdded = false;
                 return;
             }
             object o = this.MainBindingSource.Current;
             if (o != null)
             {                
                 unitOfWork.Reload(o);
-                ((Products)o).StoredItems.Reload();
-                foreach (StoredItem s in ((Products)o).StoredItems) {
-                    s.Reload();
-                }
+                Products p = (Products)o;
+                p.StoredItems.Reload();                
+                foreach (StoredItem s in p.StoredItems) {
+                    s.Reload();                    
+                }               
                 StoredCardView.RefreshData();
             }
         }        
@@ -205,6 +210,7 @@ namespace Inventory.Forms
             {
                 foreach (StoredItem s in item.StoredItems)
                 {
+                    if (s.warehouse_id == null) continue;
                     w.Add(s.warehouse_id.name);
                 }
             }
@@ -222,7 +228,7 @@ namespace Inventory.Forms
 
         private void AllItemReport_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            ItemReport report = new ItemReport();            
+            ItemsReport report = new ItemsReport();            
             ReportViewerForm f = new ReportViewerForm();
             f.Report = report;
             f.MdiParent = this.MdiParent;
@@ -241,18 +247,34 @@ namespace Inventory.Forms
                 Warehouse w = (Warehouse)wf.Warehouse;
                 Category c = (Category)wf.Category;
                 string filterString = string.Empty;
+                //DevExpress.Xpo.XPCollection pwc = new DevExpress.Xpo.XPCollection(unitOfWork, typeof(Inventory.Views.ProductByWarehouseCategory),
+               //     GroupOperator.And(new BinaryOperator("category", c.name, BinaryOperatorType.Equal), new BinaryOperator("warehouse", w.name,BinaryOperatorType.Equal)));
+                //CriteriaOperator criteriaW = null;
+                //CriteriaOperator criteriaC = null;
                 if (w != null)                
-                {                    
+                {
+                    //criteriaW = new BinaryOperator("warehouse", w.name, BinaryOperatorType.Equal);
                     report.pWarehouse.Value = w.name;
                     filterString = "[warehouse] = ?pWarehouse";
                 }
                 if(c != null && c.name!="Todas"){
+                    //criteriaC = new BinaryOperator("category", c.name, BinaryOperatorType.Equal);
                     report.pCategory.Value = c.name;
-                    if(filterString.Length>0)
+                    if (filterString.Length > 0)
                         filterString += " And [category] = ?pCategory";
                     else
                         filterString = "[category] = ?pCategory";
                 }
+                //CriteriaOperator criteria=null;
+                //if (!ReferenceEquals(criteriaC, null) && !ReferenceEquals(criteriaW, null))
+                //    criteria = GroupOperator.And(criteriaW, criteriaC);
+                //else if (!ReferenceEquals(criteriaC, null) && ReferenceEquals(criteriaW, null))
+                //    criteria = criteriaC;
+                //else
+                //    criteria = criteriaW;
+
+                //DevExpress.Xpo.XPCollection pwc = new DevExpress.Xpo.XPCollection(unitOfWork, typeof(Inventory.Views.ProductByWarehouseCategory), criteria);
+                //int count = pwc.Count;
                 report.FilterString = filterString;
                 report.OrderBy = wf.OrderBy;
                 report.SortOrder = wf.SortOrder;
@@ -296,20 +318,105 @@ namespace Inventory.Forms
                 ProductByWarehouse report = new ProductByWarehouse();
                 Warehouse w = (Warehouse)warehouseForm.Warehouse;
                 String filterString = String.Empty;
+                DevExpress.Xpo.XPCollection pw = null;
                 if (w != null) {
-                    report.pWarehouse.Value = w.name;
-                    filterString = "[warehouse] = ?pWarehouse";
+                    //report.pWarehouse.Value = w.name;
+                    //filterString = "[warehouse] = ?pWarehouse";
+                    //report.pwhid.Value = w.warehouse_id;
+                    //filterString = "[whid] = ?pwhid";
+                    pw = new DevExpress.Xpo.XPCollection(unitOfWork, typeof(Inventory.Views.ProductByWarehouse), new BinaryOperator("warehouse", w.name, BinaryOperatorType.Equal));                    
+                    
                 }
-                report.FilterString = filterString;
+                //report.FilterString = filterString;
                 report.OrderBy = warehouseForm.OrderBy;
                 report.SortOrder = warehouseForm.SortOrder;
-                report.RequestParameters = false;      
+                report.RequestParameters = false;
+                report.DataSource = pw;              
                 
                 ReportViewerForm f = new ReportViewerForm();
                 f.Report = report;
                 f.MdiParent = this.MdiParent;
                 f.Show();
             }            
+        }
+
+        private void InventoryTELForm_ResizeEnd(object sender, EventArgs e)
+        {
+                        
+        }
+
+        private void InventoryTELForm_VisibleChanged(object sender, EventArgs e)
+        {
+            gridViewInventory.BestFitColumns();            
+        }
+
+        private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            XtraReportQRCode report = new XtraReportQRCode();
+            String filterString = String.Empty;
+            DialogResult dialog = MessageBox.Show("¿Generar código para registro actual?", "Generar QRCode", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialog == System.Windows.Forms.DialogResult.Yes)
+            { //filter report
+                Products p = MainBindingSource.Current as Products;
+                report.pProductID.Value = p.product_id;
+                filterString = "[product_id] = ?pProductID";
+            }
+            else
+            {
+                if (gridViewInventory.FindFilterText.Trim() != String.Empty)
+                {
+                    List<Products> data = new List<Products>();
+                    for (int i = 0; i < gridViewInventory.RowCount; i++)
+                    {
+                        Products p = gridViewInventory.GetRow(i) as Products;
+                        data.Add(p);
+                    }
+                    report.SetDataSource(data); //why copy all data?
+                }
+            }
+            report.FilterString = filterString;
+            ReportViewerForm f = new ReportViewerForm();
+            f.MdiParent = this.MdiParent;
+            f.Report = report;
+            f.Show();
+        }
+
+        private void barBtnItemByCategory_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            CategoryChooserForm wf = new CategoryChooserForm();
+            DialogResult result = wf.ShowDialog(this);
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                //ItemByWarehouse report = new ItemByWarehouse();
+                ProductByCategoryWarehouse report = new ProductByCategoryWarehouse();
+
+                Warehouse w = (Warehouse)wf.Warehouse;
+                Category c = (Category)wf.Category;
+                string filterString = string.Empty;
+
+                if (c != null)
+                {
+                    report.pCategory.Value = c.name;
+                    filterString = "[category] = ?pCategory";
+                }
+                if (w != null && w.name != "Todas")
+                {
+                    report.pWarehouse.Value = w.name;
+                    if (filterString.Length > 0)
+                        filterString += " And [warehouse] = ?pWarehouse";
+                    else
+                        filterString = "[warehouse] = ?pWarehouse";
+                }
+                report.FilterString = filterString;
+                report.OrderBy = wf.OrderBy;
+                report.SortOrder = wf.SortOrder;
+                report.RequestParameters = false;
+                ReportViewerForm f = new ReportViewerForm();
+                f.Report = report;
+                f.MdiParent = this.MdiParent;
+                f.Show();
+            }
+
         }        
     }
 }
