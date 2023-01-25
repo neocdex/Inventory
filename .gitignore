@@ -1,4 +1,13 @@
 /bin/
 /obj/
+packages/
+packages.config
 app.config
 .vs/
+ORMDataModelCode/ConnectionHelper.cs
+Inventory_CYCSA.mwb
+Inventory_TemporaryKey.pfx
+ORMDataModel.xpo
+ORMDataModel.xpo.diagram
+Inventory.csproj.user
+Inventory.csproj.bak
